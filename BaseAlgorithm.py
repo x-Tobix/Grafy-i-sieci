@@ -1,3 +1,6 @@
+import numpy
+
+
 class BaseAlgorithm(object):
     """
     Base class for used algorithms.
@@ -21,3 +24,12 @@ class BaseAlgorithm(object):
     # TODO: Decide how files should look like
     def load_edges(self):
         raise Exception("Not implemented yet")
+
+    @staticmethod
+    def inverse_matrix(matrix):
+        """
+        Inverse given matrix. Throws an error if matrix is singular or not quadratic
+        :param matrix: Matrix (list of lists) to inverse.
+        :return inv_matrix: Inversed matrix.
+        """
+        return numpy.linalg.inv(matrix)
