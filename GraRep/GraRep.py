@@ -38,7 +38,7 @@ class GraRep(BaseAlgorithm):
             row_sum = 0
             for j in range(0, len(matrix)):
                 row_sum += matrix[i][j]
-            degree_m[i][i] == row_sum
+            degree_m[i][i] += row_sum
         return degree_m
 
     def get_k_step_transition_probability_matrices(self, adjacency_matrix, max_transition):
