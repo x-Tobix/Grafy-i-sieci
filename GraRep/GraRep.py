@@ -1,3 +1,5 @@
+from math import log
+
 import numpy
 
 from BaseAlgorithm import BaseAlgorithm
@@ -8,8 +10,7 @@ class GraRep(BaseAlgorithm):
     Main class for GraRep algorithm model.
     """
 
-    def __init__(self,
-                 max_transition_step: int):
+    def __init__(self, max_transition_step: int):
         """
         GraRep constructor
         @param max_transition_step: Maximum number of steps to collect structural data
@@ -60,3 +61,26 @@ class GraRep(BaseAlgorithm):
         for i in range(1, max_transition):
             matrices.append(numpy.dot(matrices[i-1], base_matrix))
         return matrices
+
+    @staticmethod
+    def get_positive_log_probability_matrix(transition_probability_matrix, log_shifted_factor):
+        """
+        Calculates positive log probability matrix.
+        :param transition_probability_matrix: Transition probability matrix.
+        :param log_shifted_factor: Value which logarithm will be subtracted from each field in matrix.
+        :return matrix: Log probability matrix where negative values where changed to zeros.
+        """
+        for row in transition_probability_matrix:
+            if len(row) is not len(transition_probability_matrix):
+                raise Exception("Given table is not a quadratic matrix.")
+        gamma = []
+        for j in range(0, len(transition_probability_matrix)):
+            gamma_j = 0
+            for p in range(0, len(transition_probability_matrix)):
+                gamma_j += transition_probability_matrix[p][j]
+            gamma.append(gamma_j)
+        matrix = [[0] * len(transition_probability_matrix)] * len(transition_probability_matrix)
+        for i in range(0, len(transition_probability_matrix)):
+            for j in range(0, len(transition_probability_matrix)):
+                matrix[i][j] = max(log(transition_probability_matrix[i][j]/gamma[j]) - log(log_shifted_factor), 0)
+        return matrix
