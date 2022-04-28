@@ -1,7 +1,7 @@
 from math import log
 
 import numpy
-from numpy import matmul, sqrt
+from numpy import matmul, sqrt, diag
 from numpy.linalg import linalg
 
 from BaseAlgorithm import BaseAlgorithm
@@ -34,9 +34,9 @@ class GraRep(BaseAlgorithm):
         for k in range(0, self.K):
             x_k = self.get_positive_log_probability_matrix(a, 1./len(self.S))
             u, sigma, _ = linalg.svd(x_k)
-            sigma_d = linalg.diag(sigma[:self.d])
+            sigma_d = diag(sigma[:self.d])
             u_d = sigma[:, :self.d]
-            w.append(matmul(u_d, sqrt(sigma_d)).toList())
+            w.append(matmul(u_d, sqrt(sigma_d)).tolist())
             return w
 
     @staticmethod
