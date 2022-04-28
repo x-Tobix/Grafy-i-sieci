@@ -1,6 +1,8 @@
 from math import log
 
 import numpy
+from numpy import matmul, sqrt
+from numpy.linalg import linalg
 
 from BaseAlgorithm import BaseAlgorithm
 
@@ -10,18 +12,32 @@ class GraRep(BaseAlgorithm):
     Main class for GraRep algorithm model.
     """
 
-    def __init__(self, max_transition_step: int):
+    def __init__(self, adjacency_matrix, max_transition_step: int, dimension: int):
         """
         GraRep constructor
         @param max_transition_step: Maximum number of steps to collect structural data
+        @param adjacency_matrix: Adjacency matrix representing graph
+        @param dimension: Dimension of representation vector
          """
         self.K = max_transition_step
+        self.S = adjacency_matrix
+        self.d = dimension
         super().__init__()
 
-    def create_embedding(self):
+    def create_embedding(self, adjacency_matrix):
         """
         Creates embedding from a graph based on GraRep algorithm
+        @param adjacency_matrix: Adjacency matrix representing graph
         """
+        a = self.get_k_step_transition_probability_matrices(adjacency_matrix, self.K)
+        w = []
+        for k in range(0, self.K):
+            x_k = self.get_positive_log_probability_matrix(a, 1./len(self.S))
+            u, sigma, _ = linalg.svd(x_k)
+            sigma_d = linalg.diag(sigma[:self.d])
+            u_d = sigma[:, :self.d]
+            w.append(matmul(u_d, sqrt(sigma_d)).toList())
+            return w
 
     @staticmethod
     def degree_matrix(matrix):
