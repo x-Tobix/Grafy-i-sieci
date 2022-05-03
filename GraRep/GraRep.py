@@ -19,6 +19,10 @@ class GraRep(BaseAlgorithm):
         @param adjacency_matrix: Adjacency matrix representing graph
         @param dimension: Dimension of representation vector
          """
+        if max_transition_step <= 0:
+            raise Exception("Maximum transition step must be bigger than 0")
+        if dimension <= 0:
+            raise Exception("Embedding dimension must be bigger than 0")
         self.K = max_transition_step
         self.S = adjacency_matrix
         self.d = dimension
@@ -28,6 +32,7 @@ class GraRep(BaseAlgorithm):
         """
         Creates embedding from a graph based on GraRep algorithm
         @param adjacency_matrix: Adjacency matrix representing graph
+        :return w: Created embedding.
         """
         a = self.get_k_step_transition_probability_matrices(adjacency_matrix, self.K)
         w = []
@@ -37,7 +42,7 @@ class GraRep(BaseAlgorithm):
             sigma_d = diag(sigma[:self.d])
             u_d = sigma[:, :self.d]
             w.append(matmul(u_d, sqrt(sigma_d)).tolist())
-            return w
+        return w
 
     @staticmethod
     def degree_matrix(matrix):

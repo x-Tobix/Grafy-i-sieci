@@ -10,20 +10,29 @@ class BaseAlgorithm(object):
         Base Algorithm class constructor
         """
         self.nodes = []
-        self.edges = []
+        self.matrix = []
 
-    # TODO: Decide how files should look like
     def load_nodes(self, path_to_nodes):
+        """
+        Load nodes.
+        :param path_to_nodes: Adjacency matrix in csv format.
+        """
         with open(path_to_nodes, "rb") as file:
             graph = file.readlines()
 
-        self.nodes = []
-        for node in graph:
-            self.nodes.append(node.split(' ', 1)[0])
+        for i in range(len(graph)):
+            self.nodes.append(i)
 
-    # TODO: Decide how files should look like
-    def load_edges(self):
-        raise Exception("Not implemented yet")
+    def load_adjacency_matrix(self, path_to_matrix):
+        """
+        Load adjacency matrix. Can be any type of graph.
+        :param path_to_matrix: Adjacency matrix in csv format.
+        """
+        with open(path_to_matrix, "rb") as file:
+            graph = file.readlines()
+
+        for line in graph:
+            self.matrix.append(line.split(' '))
 
     @staticmethod
     def inverse_matrix(matrix):
