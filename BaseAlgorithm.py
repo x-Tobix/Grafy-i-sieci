@@ -5,12 +5,12 @@ class BaseAlgorithm(object):
     """
     Base class for used algorithms.
     """
+
     def __init__(self):
         """
         Base Algorithm class constructor
         """
         self.nodes = []
-        self.matrix = []
 
     def load_nodes(self, path_to_nodes):
         """
@@ -31,8 +31,14 @@ class BaseAlgorithm(object):
         with open(path_to_matrix, "rb") as file:
             graph = file.readlines()
 
+        matrix = []
         for line in graph:
-            self.matrix.append(line.split(' '))
+            matrix.append(list(map(int, line.decode("utf-8")
+                                   .replace('\t', ' ')
+                                   .replace('\r', '')
+                                   .replace('\n', '')
+                                   .split(' '))))
+        return matrix
 
     @staticmethod
     def inverse_matrix(matrix):

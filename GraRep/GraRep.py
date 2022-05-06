@@ -24,17 +24,16 @@ class GraRep(BaseAlgorithm):
         if dimension <= 0:
             raise Exception("Embedding dimension must be bigger than 0")
         self.K = max_transition_step
-        self.S = adjacency_matrix
+        self.S = self.load_adjacency_matrix(adjacency_matrix)
         self.d = dimension
         super().__init__()
 
-    def create_embedding(self, adjacency_matrix):
+    def create_embedding(self):
         """
         Creates embedding from a graph based on GraRep algorithm
-        @param adjacency_matrix: Adjacency matrix representing graph
         :return w: Created embedding.
         """
-        a = self.get_k_step_transition_probability_matrices(adjacency_matrix, self.K)
+        a = self.get_k_step_transition_probability_matrices(self.S, self.K)
         w = []
         for k in range(0, self.K):
             x_k = self.get_positive_log_probability_matrix(a, 1./len(self.S))
@@ -69,11 +68,15 @@ class GraRep(BaseAlgorithm):
         :param max_transition: Maximum number of transitions.
         :return matrices: Vector of k-step transition probability matrices.
         """
+        i = -1
         for row in adjacency_matrix:
+            i += 1
             if len(row) is not len(adjacency_matrix):
                 raise Exception("Given table is not a quadratic matrix.")
+            j = -1
             for column in row:
-                if column is not 0 or column is not 1 or column is not adjacency_matrix[column][row]:
+                j += 1
+                if not (column in [0, 1]) or column != adjacency_matrix[i][j]:
                     raise Exception("Given table is not a adjacency matrix.")
         matrices = []
         inv_degree_matrix = self.inverse_matrix(self.degree_matrix(adjacency_matrix))
