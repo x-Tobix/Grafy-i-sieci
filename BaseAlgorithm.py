@@ -23,7 +23,8 @@ class BaseAlgorithm(object):
         for i in range(len(graph)):
             self.nodes.append(i)
 
-    def load_adjacency_matrix(self, path_to_matrix):
+    @staticmethod
+    def load_adjacency_matrix(path_to_matrix):
         """
         Load adjacency matrix. Can be any type of graph.
         :param path_to_matrix: Adjacency matrix in csv format.
@@ -47,4 +48,20 @@ class BaseAlgorithm(object):
         :param matrix: Matrix (list of lists) to inverse.
         :return inv_matrix: Inversed matrix.
         """
-        return numpy.linalg.inv(matrix)
+        np_array = numpy.array(matrix)
+        inv = numpy.linalg.inv(np_array).tolist()
+        return inv
+
+    @staticmethod
+    def matrix_multiply(matrix_a, matrix_b, p=-1):
+        result = []
+        for row in matrix_a:
+            current = [0] * len(matrix_b[0])
+            for i in range(0, len(matrix_b[0])):
+                for j in range(0, len(matrix_b)):
+                    current[i] += row[j] * matrix_b[j][i]
+            if p >= 1:
+                for i in range(0, len(current)):
+                    current[i] = current[i] % p
+            result.append(current)
+        return result

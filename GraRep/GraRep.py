@@ -1,6 +1,5 @@
 from math import log
 
-import numpy
 from numpy import matmul, sqrt, diag
 from numpy.linalg import linalg
 
@@ -36,10 +35,10 @@ class GraRep(BaseAlgorithm):
         a = self.get_k_step_transition_probability_matrices(self.S, self.K)
         w = []
         for k in range(0, self.K):
-            x_k = self.get_positive_log_probability_matrix(a, 1./len(self.S))
+            x_k = self.get_positive_log_probability_matrix(a[k], 1./len(self.S))
             u, sigma, _ = linalg.svd(x_k)
             sigma_d = diag(sigma[:self.d])
-            u_d = sigma[:, :self.d]
+            u_d = u[:, :self.d]
             w.append(matmul(u_d, sqrt(sigma_d)).tolist())
         return w
 
@@ -53,12 +52,14 @@ class GraRep(BaseAlgorithm):
         for row in matrix:
             if len(row) is not len(matrix):
                 raise Exception("Given table is not a quadratic matrix.")
-        degree_m = [[0] * len(matrix)] * len(matrix)
+        degree_m = []
         for i in range(0, len(matrix)):
             row_sum = 0
             for j in range(0, len(matrix)):
                 row_sum += matrix[i][j]
-            degree_m[i][i] += row_sum
+            current = [0] * len(matrix)
+            current[i] = row_sum
+            degree_m.append(current)
         return degree_m
 
     def get_k_step_transition_probability_matrices(self, adjacency_matrix, max_transition):
@@ -80,10 +81,10 @@ class GraRep(BaseAlgorithm):
                     raise Exception("Given table is not a adjacency matrix.")
         matrices = []
         inv_degree_matrix = self.inverse_matrix(self.degree_matrix(adjacency_matrix))
-        base_matrix = numpy.dot(inv_degree_matrix, adjacency_matrix)
+        base_matrix = self.matrix_multiply(inv_degree_matrix, adjacency_matrix)
         matrices.append(base_matrix)
         for i in range(1, max_transition):
-            matrices.append(numpy.dot(matrices[i-1], base_matrix))
+            matrices.append(self.matrix_multiply(matrices[i-1], base_matrix))
         return matrices
 
     @staticmethod
@@ -103,8 +104,13 @@ class GraRep(BaseAlgorithm):
             for p in range(0, len(transition_probability_matrix)):
                 gamma_j += transition_probability_matrix[p][j]
             gamma.append(gamma_j)
-        matrix = [[0] * len(transition_probability_matrix)] * len(transition_probability_matrix)
+        matrix = []
         for i in range(0, len(transition_probability_matrix)):
-            for j in range(0, len(transition_probability_matrix)):
-                matrix[i][j] = max(log(transition_probability_matrix[i][j]/gamma[j]) - log(log_shifted_factor), 0)
+            current = []
+            for k in range(0, len(transition_probability_matrix)):
+                if transition_probability_matrix[i][k] == 0:
+                    current.append(0)
+                else:
+                    current.append(max(log(transition_probability_matrix[i][k] / gamma[k]) - log(log_shifted_factor), 0))
+            matrix.append(current)
         return matrix
