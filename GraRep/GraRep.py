@@ -13,10 +13,10 @@ class GraRep(BaseAlgorithm):
 
     def __init__(self, adjacency_matrix, max_transition_step: int, dimension: int):
         """
-        GraRep constructor
-        @param max_transition_step: Maximum number of steps to collect structural data
-        @param adjacency_matrix: Adjacency matrix representing graph
-        @param dimension: Dimension of representation vector
+        GraRep constructor.
+        @param max_transition_step: Maximum number of steps to collect structural data.
+        @param adjacency_matrix: Adjacency matrix representing graph.
+        @param dimension: Dimension of representation vector.
          """
         if max_transition_step <= 0:
             raise Exception("Maximum transition step must be bigger than 0")
