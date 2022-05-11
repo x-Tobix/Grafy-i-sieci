@@ -27,6 +27,24 @@ class Node2Vec(BaseAlgorithm):
         self.G = g
         super().__init__()
 
+    def preprocess_modified_weights(self):
+        """
+        Preprocessing of transition probabilities for guiding the random walks.
+        :return nodes, edges: Alias nodes and edges.
+        """
+        nodes = {}
+        for node in self.G.nodes():
+            probabilities = [1]*len(self.G.neighbors(node))
+            normalized_probabilities = [float(probability) / sum(probabilities) for probability in probabilities]
+            nodes[node] = self.create_utility_lists(normalized_probabilities)
+
+        edges = {}
+        for edge in self.G.edges():
+            edges[edge] = self.get_alias_edge(edge[0], edge[1])
+            edges[(edge[1], edge[0])] = self.get_alias_edge(edge[1], edge[0])
+
+        return nodes, edges
+
     def get_alias_edge(self, source, other):
         """
         Get alias edge based on normalized probabilities.
