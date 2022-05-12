@@ -17,12 +17,12 @@ if __name__ == '__main__':
         elif action == "B":
             chosen = True
             matrix = input("Give path to adjacency matrix: ")
-            l = input("Give length of a single random walk: ")
+            le = input("Give length of a single random walk: ")
             r = input("Give number of random walks starting at a single vertex: ")
             p = input("Give bias Return parameter: ")
             q = input("Give bias In-Out parameter: ")
             d = input("Give embedding dimension: ")
-            NV = Node2Vec(matrix, int(l), int(r), int(p), int(q), int(d))
+            NV = Node2Vec(matrix, int(le), int(r), int(p), int(q), int(d))
             print(NV.create_embedding())
         elif action == "C":
             chosen = True
