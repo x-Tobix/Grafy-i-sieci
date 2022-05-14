@@ -1,5 +1,6 @@
 from GraRep.GraRep import GraRep
 from Node2Vec.Node2Vec import Node2Vec
+from GraphWave.GraphWave import GraphWave
 
 if __name__ == '__main__':
     print("----- GraRep+++Node2Vec+++GraphWave -----")

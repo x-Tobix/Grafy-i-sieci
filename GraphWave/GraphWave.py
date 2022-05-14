@@ -10,24 +10,25 @@ class GraphWave(BaseAlgorithm):
     Main class for GraphWave algorithm model.
     """
 
-    def __init__(self, L, s ):
+    def __init__(self, adjacency_matrix, s ):
         """
         GraphWave constructor
-        @param L:  matrix D - A, where A - Adjency matrix and D - Degree matrix
+        @param adjacency_matrix: Adjacency matrix representing graph.
         @param s: scale parametr
         """
 
         self.s = s
         self.N = len(self.nodes)
-        self.L = self.load_adjacency_matrix(L)
+        self.A = self.load_adjacency_matrix(adjacency_matrix)
         super().__init__()
 
-    def spectral_graph_wavelet(self, s):
+    def spectral_graph_wavelet(self, adjacency_matrix, s):
         """
         This method computes the heat diffusion waves for each of the nodes
         """
-
-        lap = csgraph.laplacian(self.L)
+        D = self.degree_matrix(adjacency_matrix)
+        L = self.matrix_subtraction(D - adjacency_matrix)
+        lap = csgraph.laplacian(L)
         lamb, U = np.linalg.eigh(lap)
         heat = U.dot(np.diagflat(np.exp(- s * lamb).flatten())).dot(U.T)
         

@@ -42,25 +42,7 @@ class GraRep(BaseAlgorithm):
             w.append(matmul(u_d, sqrt(sigma_d)).tolist())
         return w
 
-    @staticmethod
-    def degree_matrix(matrix):
-        """
-        Calculates degree matrix for given adjacency matrix.
-        :param matrix: Matrix (list of lists) to inverse.
-        :return degree_matrix: Degree matrix.
-        """
-        for row in matrix:
-            if len(row) is not len(matrix):
-                raise Exception("Given table is not a quadratic matrix.")
-        degree_m = []
-        for i in range(0, len(matrix)):
-            row_sum = 0
-            for j in range(0, len(matrix)):
-                row_sum += matrix[i][j]
-            current = [0] * len(matrix)
-            current[i] = row_sum
-            degree_m.append(current)
-        return degree_m
+    
 
     def get_k_step_transition_probability_matrices(self, adjacency_matrix, max_transition):
         """
