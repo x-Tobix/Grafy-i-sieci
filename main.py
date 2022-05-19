@@ -27,7 +27,12 @@ if __name__ == '__main__':
             print(NV.create_embedding())
         elif action == "C":
             chosen = True
-            print("Not implemented yet")
+            matrix = input("Give path to adjacency matrix: ")
+            s = int(input("Give scale parametr s: "))
+            d = int(input("Give parametr d: "))
+
+            GW = GraphWave(matrix, s, d)
+            print(GW.create_embedding(s,d))
         else:
             print("Option is not available. Please try again.")
     input("Press enter to exit")
