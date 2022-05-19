@@ -94,6 +94,6 @@ class BaseAlgorithm(object):
         for i in range(len(matrix_a)):
             current = [0] * len(matrix_a[0])
             for j in range(len(matrix_a[0])):
-                    current[i] = matrix_a[i][j] - matrix_b[i][j]
+                    current[j] = matrix_a[i][j] - matrix_b[i][j]
             result.append(current)
         return result
