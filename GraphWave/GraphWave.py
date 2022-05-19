@@ -16,6 +16,7 @@ class GraphWave(BaseAlgorithm):
         GraphWave constructor
         @param adjacency_matrix: Adjacency matrix representing graph.
         @param s: scale parametr
+        @param d: dimension
         """
 
         self.s = s
@@ -34,9 +35,6 @@ class GraphWave(BaseAlgorithm):
         heat = U.dot(temp).dot(U.T)
         return heat
         
-
-
-
 
     def spectral_graph_wavelet(self, adjacency_matrix, s):
         """
@@ -67,22 +65,6 @@ class GraphWave(BaseAlgorithm):
                     countIm += np.sin(t[i]*temp[m,a])
                 final_sig[::2, i] = zeros_vec[i] + 1.0 / self.N * countRe
                 final_sig[1::2, i] = zeros_vec[i] + 1.0 / self.N * countIm
-                    #final_sig[::2, i] = zeros_vec[i] + 1.0 / n_nodes*np.cos(np.einsum("i,j-> ij", t, np.array(d[i]))).sum(1)
-                    
-
-
-
-
-        #temp2 = temp.T
-        #d = temp2.data
-        #n_nodes = temp.shape[1]
-        #final_sig = np.zeros((2 * len(t), n_nodes))
-        #zeros_vec = np.array([1.0 / n_nodes*(n_nodes - len(d[i])) for i in range(n_nodes)])
-        #for i in range(n_nodes):
-        #    final_sig[::2, i] = zeros_vec[i] + 1.0 / n_nodes *\
-        #        np.cos(np.einsum("i,j-> ij", t, np.array(d[i]))).sum(1)
-        #for it_t, t in enumerate(t):
-        #    final_sig[it_t * 2 + 1, :] = 1.0 / n_nodes * ((t*temp).sin().sum(0))
 
         return final_sig
 
