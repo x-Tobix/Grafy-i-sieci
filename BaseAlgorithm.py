@@ -53,6 +53,26 @@ class BaseAlgorithm(object):
         return inv
 
     @staticmethod
+    def degree_matrix(matrix):
+        """
+        Calculates degree matrix for given adjacency matrix.
+        :param matrix: Matrix (list of lists) to inverse.
+        :return degree_matrix: Degree matrix.
+        """
+        for row in matrix:
+            if len(row) is not len(matrix):
+                raise Exception("Given table is not a quadratic matrix.")
+        degree_m = []
+        for i in range(0, len(matrix)):
+            row_sum = 0
+            for j in range(0, len(matrix)):
+                row_sum += matrix[i][j]
+            current = [0] * len(matrix)
+            current[i] = row_sum
+            degree_m.append(current)
+        return degree_m
+
+    @staticmethod
     def matrix_multiply(matrix_a, matrix_b, p=-1):
         result = []
         for row in matrix_a:
@@ -63,5 +83,17 @@ class BaseAlgorithm(object):
             if p >= 1:
                 for i in range(0, len(current)):
                     current[i] = current[i] % p
+            result.append(current)
+        return result
+
+    @staticmethod
+    def matrix_subtraction(matrix_a, matrix_b):
+        if (len(matrix_a) != len(matrix_b)) or (len(matrix_a[0]) != len(matrix_b[0])):
+            raise Exception("Given matrices have different dimensions")
+        result = []
+        for i in range(len(matrix_a)):
+            current = [0] * len(matrix_a[0])
+            for j in range(len(matrix_a[0])):
+                    current[j] = matrix_a[i][j] - matrix_b[i][j]
             result.append(current)
         return result

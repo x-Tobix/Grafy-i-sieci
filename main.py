@@ -1,5 +1,6 @@
 from GraRep.GraRep import GraRep
 from Node2Vec.Node2Vec import Node2Vec
+from GraphWave.GraphWave import GraphWave
 
 if __name__ == '__main__':
     print("----- GraRep+++Node2Vec+++GraphWave -----")
@@ -33,7 +34,12 @@ if __name__ == '__main__':
             print(NV.create_embedding(negative, alpha, min_alpha, hs, window, num_iter))
         elif action == "C":
             chosen = True
-            print("Not implemented yet")
+            matrix = input("Give path to adjacency matrix: ")
+            s = int(input("Give scale parametr s: "))
+            d = int(input("Give parametr d: "))
+
+            GW = GraphWave(matrix, s, d)
+            print(GW.create_embedding(s,d))
         else:
             print("Option is not available. Please try again.")
     input("Press enter to exit")
