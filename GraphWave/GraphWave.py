@@ -53,18 +53,16 @@ class GraphWave(BaseAlgorithm):
         """
         This method computes the characteristic function
         """
-
+        final_sig = np.zeros((2 * d, self.N))
         for a in range(self.N):
-            final_sig = np.zeros((2 * d, self.N))
-            zeros_vec = np.array([0 for i in range(d)])
             for i in range(d):
                 countRe = 0
                 countIm = 0
                 for m in range(self.N):
                     countRe += np.cos(t[i]*temp[m,a])
                     countIm += np.sin(t[i]*temp[m,a])
-                final_sig[::2, i] = zeros_vec[i] + 1.0 / self.N * countRe
-                final_sig[1::2, i] = zeros_vec[i] + 1.0 / self.N * countIm
+                final_sig[2*i, a] =  1.0 / self.N * countRe
+                final_sig[2*i + 1, a] =  1.0 / self.N * countIm
 
         return final_sig
 
@@ -72,7 +70,7 @@ class GraphWave(BaseAlgorithm):
         """
         Creates embedding from a graph based on GraphWave algorithm
         """
-        t= np.linspace(0,100,d)
+        t = np.linspace(0,10,d)
         heat_print = self.spectral_graph_wavelet(self.A, s)
         chi = self.characteristic_function(t, heat_print,d)
         
