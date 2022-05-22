@@ -24,7 +24,14 @@ if __name__ == '__main__':
             q = input("Give bias In-Out parameter: ")
             d = input("Give embedding dimension: ")
             NV = Node2Vec(matrix, int(le), int(r), int(p), int(q), int(d))
-            print(NV.create_embedding())
+            print("Provide crucial Word2Vec parameters.")
+            negative = input("Give number of negative samples: ")
+            alpha = input("Give starting learning rate: ")
+            min_alpha = input("Give minimal learning rate: ")
+            hs = input("Decide on Hierarchical Softmax: ")
+            window = input("Give window size of a network: ")
+            num_iter = input("Give number of iterations: ")
+            print(NV.create_embedding(negative, alpha, min_alpha, hs, window, num_iter))
         elif action == "C":
             chosen = True
             matrix = input("Give path to adjacency matrix: ")
