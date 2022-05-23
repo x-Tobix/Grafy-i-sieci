@@ -30,7 +30,7 @@ class Node2Vec(BaseAlgorithm):
         self.__model = None
         super().__init__()
 
-    def create_embedding(self, negative, alpha, min_alpha, hs, window, num_iter):
+    def create_embedding(self, negative: int, alpha: float, min_alpha: float, hs: int, window: int, num_iter: int):
         """
         Simulate Node2Vec algorithm.
         @param negative: Number of samples for the Negative Sampling method.
@@ -48,7 +48,12 @@ class Node2Vec(BaseAlgorithm):
             for node in nodes:
                 walks.append(self.node_2_vec_walk(self.L, node, nodes_proc, edges_proc))
 
-        walks = [map(str, walk) for walk in walks]
+        string_walks = []
+        for i in walks:
+            current = []
+            for j in i:
+                current.append(str(j))
+            string_walks.append(current)
 
         model = word2vec.Word2Vec(sentences=None,
                                   size=self.d,
@@ -62,10 +67,10 @@ class Node2Vec(BaseAlgorithm):
                                   sample=0,
                                   sorted_vocab=0)
         self.__model = model
-        self.__model.build_vocab(sentences=walks)
-        self.__model.train(walks,
+        self.__model.build_vocab(sentences=string_walks)
+        self.__model.train(string_walks,
                            epochs=num_iter,
-                           total_examples=len(walks))
+                           total_examples=len(string_walks))
         ret_matrix = np.empty((len(self.S), self.d), dtype="float32")
         for i in np.arange(len(self.S)):
             ret_matrix[i, :] = self.__model.wv[str(i)]
