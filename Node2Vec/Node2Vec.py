@@ -40,7 +40,7 @@ class Node2Vec(BaseAlgorithm):
         nodes = list(self.G.nodes())
         for i in range(0, self.R):
             for node in nodes:
-                walks.append(self.node_2_vec_walk(self.L, node, nodes_proc, edges_proc))
+                walks.append(self.node_2_vec_walk(node, self.L, nodes_proc, edges_proc))
 
         string_walks = []
         for i in walks:
