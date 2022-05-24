@@ -42,8 +42,6 @@ class GraRep(BaseAlgorithm):
             w.append(matmul(u_d, sqrt(sigma_d)).tolist())
         return w
 
-    
-
     def get_k_step_transition_probability_matrices(self, adjacency_matrix, max_transition):
         """
         Calculates vector of k-step transition probability matrices.
@@ -54,7 +52,7 @@ class GraRep(BaseAlgorithm):
         i = -1
         for row in adjacency_matrix:
             i += 1
-            if len(row) is not len(adjacency_matrix):
+            if len(row) != len(adjacency_matrix):
                 raise Exception("Given table is not a quadratic matrix.")
             j = -1
             for column in row:
@@ -78,7 +76,7 @@ class GraRep(BaseAlgorithm):
         :return matrix: Log probability matrix where negative values where changed to zeros.
         """
         for row in transition_probability_matrix:
-            if len(row) is not len(transition_probability_matrix):
+            if len(row) != len(transition_probability_matrix):
                 raise Exception("Given table is not a quadratic matrix.")
         gamma = []
         for j in range(0, len(transition_probability_matrix)):

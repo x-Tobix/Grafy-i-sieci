@@ -60,7 +60,7 @@ class BaseAlgorithm(object):
         :return degree_matrix: Degree matrix.
         """
         for row in matrix:
-            if len(row) is not len(matrix):
+            if len(row) != len(matrix):
                 raise Exception("Given table is not a quadratic matrix.")
         degree_m = []
         for i in range(0, len(matrix)):
