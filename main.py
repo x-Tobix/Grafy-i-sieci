@@ -35,10 +35,12 @@ if __name__ == '__main__':
         elif action == "C":
             chosen = True
             matrix = input("Give path to adjacency matrix: ")
-            s = int(input("Give scale parameter s: "))
             d = int(input("Give parameter d: "))
-            GW = GraphWave(matrix, s, d)
-            print(GW.create_embedding(s,d))
+            J = int(input("Give parameter J: "))
+            interval_start = int(input("Give interval_start: "))
+            interval_stop = int(input("Give interval_stop: "))
+            GW = GraphWave(matrix, d, J)
+            print(GW.create_embedding(d, interval_start, interval_stop))
         else:
             print("Option is not available. Please try again.")
     input("Press enter to exit")
