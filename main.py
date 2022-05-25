@@ -3,10 +3,12 @@ import time
 from GraRep.GraRep import GraRep
 from Node2Vec.Node2Vec import Node2Vec
 from GraphWave.GraphWave import GraphWave
+from Utilities import save_matrix
 
 if __name__ == '__main__':
     print("----- GraRep+++Node2Vec+++GraphWave -----")
     chosen = False
+    result = None
     while not chosen:
         print("A. Use GraRep \nB. Use Node2Vec \nC. Use GraphWave")
         action = input("Choose option: ")
@@ -17,8 +19,9 @@ if __name__ == '__main__':
             d = input("Give embedding dimension: ")
             start = time.time()
             GR = GraRep(matrix, int(k), int(d))
-            print(GR.create_embedding())
+            result = GR.create_embedding()
             end = time.time()
+            print(result)
             print(end - start)
         elif action == "B":
             chosen = True
@@ -30,8 +33,9 @@ if __name__ == '__main__':
             d = int(input("Give embedding dimension: "))
             start = time.time()
             NV = Node2Vec(matrix, int(le), int(r), int(p), int(q), int(d))
-            print(NV.create_embedding())
+            result = NV.create_embedding()
             end = time.time()
+            print(result)
             print(end - start)
         elif action == "C":
             chosen = True
@@ -42,9 +46,14 @@ if __name__ == '__main__':
             interval_stop = int(input("Give interval_stop: "))
             start = time.time()
             GW = GraphWave(matrix, d, J)
-            print(GW.create_embedding(d, interval_start, interval_stop))
+            result = GW.create_embedding(d, interval_start, interval_stop)
             end = time.time()
+            print(result)
             print(end - start)
         else:
             print("Option is not available. Please try again.")
+    save = input("Do you want to save embedding? Type Y if yes.")
+    if save == "Y":
+        path = input("Give embedding path: ")
+        save_matrix(result, path)
     input("Press enter to exit")
