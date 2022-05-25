@@ -40,7 +40,7 @@ class GraRep(BaseAlgorithm):
             sigma_d = diag(sigma[:self.d])
             u_d = u[:, :self.d]
             w.append(matmul(u_d, sqrt(sigma_d)).tolist())
-        return w
+        return self.matrix_mean(w)
 
     def get_k_step_transition_probability_matrices(self, adjacency_matrix, max_transition):
         """

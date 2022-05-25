@@ -74,6 +74,13 @@ class BaseAlgorithm(object):
 
     @staticmethod
     def matrix_multiply(matrix_a, matrix_b, p=-1):
+        """
+        Calculates multiplication of matrices.
+        :param matrix_a: Left matrix to be multiplied.
+        :param matrix_b: Right matrix to be multiplied.
+        :param p: Modulo, if p < 1 then no modulo is used.
+        :return result: Multiplication of matrix_a and matrix_b.
+        """
         result = []
         for row in matrix_a:
             current = [0] * len(matrix_b[0])
@@ -88,6 +95,12 @@ class BaseAlgorithm(object):
 
     @staticmethod
     def matrix_subtraction(matrix_a, matrix_b):
+        """
+        Calculates subtraction of matrices.
+        :param matrix_a: Matrix from which we subtract
+        :param matrix_b: Matrix that we subtract.
+        :return result: Result of subtraction.
+        """
         if (len(matrix_a) != len(matrix_b)) or (len(matrix_a[0]) != len(matrix_b[0])):
             raise Exception("Given matrices have different dimensions")
         result = []
@@ -96,4 +109,29 @@ class BaseAlgorithm(object):
             for j in range(len(matrix_a[0])):
                     current[j] = matrix_a[i][j] - matrix_b[i][j]
             result.append(current)
+        return result
+
+    @staticmethod
+    def matrix_mean(matrices):
+        """
+        Calculates arithmetic mean of matrices.
+        :param matrices: List of matrices for mean.
+        :return result: Matrix which is a mean of input element wise.
+        """
+        for matrix in matrices:
+            if len(matrices[0]) != len(matrix):
+                raise Exception("Given matrices have different dimensions")
+            for row in matrix:
+                if len(matrices[0][0]) != len(row):
+                    raise Exception("Not all of matrices are quadratic")
+        result = []
+        for i in range(0, len(matrices[0])):
+            result.append([0]*len(matrices[0][0]))
+        for matrix in matrices:
+            for j in range(0, len(matrix)):
+                for k in range(0, len(matrix[j])):
+                    result[j][k] += matrix[j][k]
+        for j in range(0, len(result)):
+            for k in range(0, len(result[j])):
+                result[j][k] += result[j][k] / len(matrices)
         return result
