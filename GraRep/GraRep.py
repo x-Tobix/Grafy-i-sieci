@@ -35,7 +35,7 @@ class GraRep(BaseAlgorithm):
         a = self.get_k_step_transition_probability_matrices(self.S, self.K)
         w = []
         for k in range(0, self.K):
-            x_k = self.get_positive_log_probability_matrix(a[k], 1./len(self.S))
+            x_k = self.get_positive_log_probability_matrix(a[k], 1/len(self.S))
             u, sigma, _ = linalg.svd(x_k)
             sigma_d = diag(sigma[:self.d])
             u_d = u[:, :self.d]
