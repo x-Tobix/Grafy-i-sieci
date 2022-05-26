@@ -32,7 +32,7 @@ if __name__ == '__main__':
             q = float(input("Give bias In-Out parameter: "))
             d = int(input("Give embedding dimension: "))
             start = time.time()
-            NV = Node2Vec(matrix, int(le), int(r), int(p), int(q), int(d))
+            NV = Node2Vec(matrix, int(le), int(r), float(p), float(q), int(d))
             result = NV.create_embedding()
             end = time.time()
             print(result)
